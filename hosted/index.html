@@ -14,6 +14,7 @@
 		let socket;
 		let oldDraws = {};
 		let draws = {};
+		let lastUpdate = 0;
 		
 		const user = `user${(Math.floor((Math.random()*1000))+1)}`;
 		
@@ -54,7 +55,7 @@
 					const time = new Date().getTime();
 					
 					let totalTime = drawCall.lastUpdate - oldDrawCall.lastUpdate;
-					let currTime = time - drawCall.lastUpdate;
+					let currTime = time - lastUpdate;
 					let percent = currTime / totalTime;
 					
 					if (percent > 1)
@@ -93,6 +94,7 @@
 		}
 		
 		const handleMessage = (data) => {
+			lastUpdate = new Date().getTime();
 			oldDraws = draws;
 			draws = data.users;
 		}
@@ -129,7 +131,7 @@
     </script>
 </head>
 <body>
-	<p>WASD to move, F to change color.</p>
+	<p>A and D to move, space to jump, F to change color.</p>
 	<canvas id="mainCanvas" width="1280" height="720" style="border:1px solid #000000;"></canvas>
 </body>
 </html>
